@@ -1,0 +1,69 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cryptovol"
+version = "0.1.0"
+description = "Arbitrage-free implied volatility surfaces (SVI / SSVI) for BTC and ETH options from Deribit public data"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "YoussefElb75" }]
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pandas>=2.1",
+    "pyarrow>=14",
+    "matplotlib>=3.8",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "mypy==2.4.1",
+    "ruff==0.17.3",
+    "pandas-stubs",
+    "types-requests",
+    "nbconvert>=7",
+    "nbformat>=5",
+    "ipykernel>=6",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cryptovol"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "NPY", "RUF"]
+ignore = ["N803", "N806", "RUF001", "RUF002", "RUF003"]  # maths-style names (K, T, F) and Greek letters in labels and docstrings
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+# pandas returns Any from many DataFrame methods; checking those returns adds noise only
+warn_return_any = false
+files = ["src/cryptovol"]
+warn_unused_ignores = false
+
+[[tool.mypy.overrides]]
+module = ["scipy.*", "matplotlib.*", "mpl_toolkits.*", "pyarrow.*"]
+ignore_missing_imports = true

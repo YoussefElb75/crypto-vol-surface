@@ -1,0 +1,9 @@
+{
+  "timestamp_ms": 1767340800000,
+  "index_prices": {
+    "BTC": 90000.0,
+    "ETH": 3000.0
+  },
+  "source": "synthetic (cryptovol.synthetic, known SSVI ground truth)",
+  "seed": 7
+}
